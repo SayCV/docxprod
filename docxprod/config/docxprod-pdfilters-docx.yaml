@@ -1,0 +1,12 @@
+#
+# pdfilters-py-docx.yaml
+#
+filters:
+- pandoc-fignos
+- pandoc-tablenos
+- pandoc-eqnos
+- pandoc-secnos
+- pdfilter-docx-centertext
+- pdfilter-docx-pagebreak
+- pdfilter-docx-svg2emf
+- citeproc
