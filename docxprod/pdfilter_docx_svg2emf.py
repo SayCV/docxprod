@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-- pagebreak.docx.py
+- pdfilter-docx-svg2emf
 """
 
 import os
+
 import panflute as pf
 
 

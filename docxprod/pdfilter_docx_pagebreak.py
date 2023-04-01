@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-- pagebreak.docx.py
+- pdfilter-docx-pagebreak
 """
 
 import panflute as pf

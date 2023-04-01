@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-- pagebreak.docx.py
+- docxprod-helper
 """
 
 from pathlib import Path as path

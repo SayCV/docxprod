@@ -4,9 +4,12 @@
 A pandoc filter that allows to explicitly set the column widths for tables.
 Column width can get passed to the table as an attribute in its caption:
     Table: This is the caption {#tbl:tab1 colwidth=".2 .2 .6"}
+
+- pdfilter-docx-tab-update-wdith
 """
 
 from typing import Tuple
+
 import panflute as pf
 
 DOCX_TABLE_FULL_WIDTH_DEFAULT = 9576

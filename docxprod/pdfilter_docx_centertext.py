@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-- centertext.docx.py
+- pdfilter-docx-centertext
 """
 
 import panflute as pf
