@@ -32,7 +32,7 @@ def update_fields(filepath: path):
             if field.Type != 37 and field.Type != 88:
                 response = field.UpdateSource()
                 logger.info(f'Success with {field.Code()}')
-                time.sleep(2)
+                time.sleep(1)
             #break
         response = doc.Fields.Update() # updates field, returns 0 if successful ->  Invaildate action
         if response != 0:
