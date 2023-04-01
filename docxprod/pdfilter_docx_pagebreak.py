@@ -30,7 +30,7 @@ class DocxPagebreak(object):
     def action(self, elem, doc):
         if type(elem) == pf.Div and "style" in elem.attributes and 'page-break-after' in elem.attributes["style"]:
             if (doc.format == "docx"):
-                pf.debug(f"Processing page break at line {elem.index}")
+                pf.debug(f"Processing page break at index {elem.index}")
                 elem = self.pagebreak
         return elem
 

@@ -20,8 +20,7 @@ class DocxSvg2emf(object):
                         pf.debug(f"docx_support_svg: {docx_support_svg}")
                         return elem
                     elem.url = os.path.splitext(fn)[0]+'.emf'
-                    pf.debug(
-                        "[inline] changed .svg file to {}".format(elem.url))
+                    pf.debug(f"Processing svg2emf at index {elem.index}: {elem.url}")
         return elem
 
 

@@ -18,7 +18,7 @@ else:
 
 entry_points = {
     'console_scripts': [
-        "pdfilter-docx-helper = docxprod.pdfilter_docx_helper:main",
+        "docxprod-helper = docxprod.docxprod_helper:main",
         "pdfilter-docx-centertext = docxprod.pdfilter_docx_centertext:main",
         "pdfilter-docx-pagebreak = docxprod.pdfilter_docx_pagebreak:main",
         "pdfilter-docx-svg2emf = docxprod.pdfilter_docx_svg2emf:main",

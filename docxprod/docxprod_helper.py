@@ -6,10 +6,10 @@
 
 from pathlib import Path as path
 
-PDFILTERS_PY_ROOT = path(__file__).resolve().parent
+DOCXPROD_ROOT = path(__file__).resolve().parent
 
 def main():
-    print(PDFILTERS_PY_ROOT)
+    print(DOCXPROD_ROOT)
 
 
 if __name__ == "__main__":
