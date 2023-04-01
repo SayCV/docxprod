@@ -22,6 +22,7 @@ entry_points = {
         "pdfilter-docx-centertext = docxprod.pdfilter_docx_centertext:main",
         "pdfilter-docx-pagebreak = docxprod.pdfilter_docx_pagebreak:main",
         "pdfilter-docx-svg2emf = docxprod.pdfilter_docx_svg2emf:main",
+        "pdfilter-docx-tab-update-wdith = docxprod.pdfilter_docx_tab_update_wdith:main",
     ],
 }
 

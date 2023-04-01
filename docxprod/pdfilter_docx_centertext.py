@@ -38,7 +38,7 @@ class DocxCentertext(object):
     def action(self, elem, doc):
         if type(elem) == pf.Div and "style" in elem.attributes and 'text-align:center' in elem.attributes["style"]:
             if (doc.format == "docx"):
-                pf.debug(f"Processing center text: {pf.stringify(elem)}")
+                pf.debug(f"Processing center text at line {elem.index}: {pf.stringify(elem)}")
                 if 'font-weight:bold' in elem.attributes["style"]:
                     elem = self.centertext_bold(pf.stringify(elem))
                 else:
