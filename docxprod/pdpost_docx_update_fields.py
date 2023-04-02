@@ -50,7 +50,7 @@ def main(doc=None):
     logging.basicConfig(
         style="{", format="[{levelname:<7}] {message}", level=logging.INFO
     )
-    # Add a custom status level for logging what subspy is doing.
+    # Add a custom status level for logging.
     logging.addLevelName(25, "STATUS")
     logging.Logger.status = functools.partialmethod(logging.Logger.log, 25)
     logging.status = functools.partial(logging.log, 25)
