@@ -97,6 +97,17 @@ def parse_toc(args: argparse.Namespace, css_dict: dict, enable_update_pdf=False)
 
     return toc
 
+def update_toc_bookmark(args: argparse.Namespace, enable_update_pdf=False, save_toc_file=False) -> list:
+    css_dict = parse_css(args.pdf_bookmark_css)
+    toc = parse_toc(args, css_dict, enable_update_pdf=enable_update_pdf)
+    if save_toc_file and toc:
+        toc_file: path = args.input.with_suffix('.toc')
+        toc_str = []
+        for _toc in toc:
+            toc_str.append(f"{_toc[0]},{_toc[1]},{_toc[2]},{_toc[3]}")
+        toc_file.write_text('\n'.join(toc_str))
+    return toc
+
 def main(doc=None):
 
     parser = argparse.ArgumentParser()
@@ -131,14 +142,7 @@ def main(doc=None):
     logger_init(args)
 
     try:
-        css_dict = parse_css(args.pdf_bookmark_css)
-        toc = parse_toc(args, css_dict, enable_update_pdf=True)
-        if True and toc:
-            toc_file: path = args.input.with_suffix('.toc')
-            toc_str = []
-            for _toc in toc:
-                toc_str.append(f"{_toc[0]},{_toc[1]},{_toc[2]},{_toc[3]}")
-            toc_file.write_text('\n'.join(toc_str))
+        update_toc_bookmark(args, enable_update_pdf=True)
         logger.info(f"Updated toc to pdf done.")
     except Exception as e:
         #logging.error(e)

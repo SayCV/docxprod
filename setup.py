@@ -26,6 +26,7 @@ entry_points = {
         "pdpost-docx-update-fields = docxprod.pdpost_docx_update_fields:main",
         "pdpost-pdf-update-numpages = docxprod.pdpost_pdf_update_numpages:main",
         "pdpost-pdf-update-bookmark = docxprod.pdpost_pdf_update_bookmark:main",
+        "pdpost-pdf-update-toc-page = docxprod.pdpost_pdf_update_toc_page:main",
     ],
 }
 
