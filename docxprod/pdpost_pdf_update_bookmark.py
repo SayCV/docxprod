@@ -61,7 +61,7 @@ def parse_toc(args: argparse.Namespace, css_dict: dict, enable_update_pdf=False)
                             match_obj = pattern.match(values['font-size'])
                             if match_obj:
                                 expected_fs = float(match_obj.group(1))
-                                logger.debug(f"{key}: {context['size']}, {int(context['size'])}, {round(expected_fs)} == {round(context['size'])}")
+                                #logger.debug(f"{key}: {context['size']}, {int(context['size'])}, {round(expected_fs)} == {round(context['size'])}")
                                 if round(expected_fs) == round(context['size']):
                                     line_local = context['bbox'][1]
                                     point = fitz.Point(0, float(line_local))
