@@ -1,1 +1,2 @@
 include docxprod/config/*.xml
+include docxprod/data/*.tex
