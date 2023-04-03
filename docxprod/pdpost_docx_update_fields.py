@@ -45,7 +45,9 @@ def update_fields(filepath: path):
 def main(doc=None):
 
     parser = argparse.ArgumentParser()
-    # Create Arguments
+    parser.add_argument(
+        "--debug", action="store_true", help="Print additional debugging information"
+    )
     parser.add_argument(
         '--output',
         '-o',
