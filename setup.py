@@ -25,6 +25,7 @@ entry_points = {
         "pdfilter-docx-tab-update-wdith = docxprod.pdfilter_docx_tab_update_wdith:main",
         "pdpost-docx-update-fields = docxprod.pdpost_docx_update_fields:main",
         "pdpost-pdf-update-numpages = docxprod.pdpost_pdf_update_numpages:main",
+        "pdpost-pdf-update-bookmark = docxprod.pdpost_pdf_update_bookmark:main",
     ],
 }
 
@@ -33,6 +34,7 @@ install_requires = [
     "colorama >= 0.3.7",
     "panflute >= 2.1.3",
     "pymupdf >= 1.21.1",
+    "cssutils >= 2.3.0",
 ]
 
 setup(
