@@ -1,22 +1,21 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-- pdpost-pdf-update-toc-page
+- pdpost-pdf-update-tocpage
 """
 
 import argparse
 import logging
 import re
 import traceback
+from pathlib import Path as path
 from string import Template
 
+import fitz  # pymupdf
 from fitzutils import ToCEntry
 
-from docxprod.pdpost_pdf_update_bookmark import update_toc_bookmark
-import fitz  # pymupdf
-from pathlib import Path as path
-
-from docxprod.docxprod_helper import (DOCXPROD_ROOT, logger_init)
+from .docxprod_helper import DOCXPROD_ROOT, logger_init
+from .pdpost_pdf_update_bookmark import update_toc_bookmark
 
 logger = logging.getLogger(__name__)
 
@@ -93,9 +92,9 @@ def update_toc_page(args: argparse.Namespace, toc: list):
             page_num = toc_entry.pagenum
             vpos = toc_entry.vpos
 
-            fontsize = 12 if level < 2 else 10
-            row_space = 18 if level < 2 else 18
-            toc_entry.title = '  ' * (level - 1) + toc_entry.title
+            fontsize = 12 if level < 2 else 12 #10.5
+            row_space = 10 if level < 2 else 10
+            toc_entry.title = ' ' * 4 * (level - 1) + toc_entry.title
             text = f"{toc_entry.title}{page_num}"
             #text_width = fitz.get_text_length(text, fontname=fontname)
             #one_dot_width = fitz.get_text_length('.', fontname=fontname)
@@ -119,8 +118,8 @@ def update_toc_page(args: argparse.Namespace, toc: list):
             page.insert_text(r.bl, text, fontname=fontname, fontsize=fontsize, color=(0, 0, 0, 1), fill=None, render_mode=0,
                             border_width=1, rotate=0, morph=None, overlay=True)
 
-            #py += 2 * line_height
-            py += row_space
+            py += 1 * line_height
+            #py += row_space
 
     pdf_in_file: path = args.input
     pdf_out_file: path = pdf_in_file.parent / \
@@ -143,7 +142,7 @@ def main(doc=None):
     parser.add_argument(
         '--level',
         type=int,
-        default='2',
+        default='4',
         help='Provided the level of title')
     parser.add_argument(
         '--verbose',
@@ -155,7 +154,6 @@ def main(doc=None):
 
     try:
         args.pdf_bookmark_css = f'{DOCXPROD_ROOT}/data/pdf_bookmark_default.css'
-        args.enable_main_title = False
         toc = update_toc_bookmark(args, enable_update_pdf=False)
         update_toc_page(args, toc)
         logger.info(f"Updated toc page to pdf done.")

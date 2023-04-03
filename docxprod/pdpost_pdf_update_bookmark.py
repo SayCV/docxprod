@@ -8,12 +8,12 @@ import argparse
 import logging
 import re
 import traceback
+from pathlib import Path as path
 
 import cssutils
 import fitz  # pymupdf
-from pathlib import Path as path
 
-from docxprod.docxprod_helper import (DOCXPROD_ROOT, logger_init)
+from docxprod.docxprod_helper import DOCXPROD_ROOT, logger_init
 
 logger = logging.getLogger(__name__)
 
@@ -35,7 +35,6 @@ def parse_toc(args: argparse.Namespace, css_dict: dict, enable_update_pdf=False)
     re_font_size = r'(\d+)pt'
     re_head_title = r'h(\d+)'
 
-    enable_main_title = args.enable_main_title
     pdf = fitz.open(args.input)
     toc: list = pdf.get_toc(simple=False)
     if toc:
@@ -49,8 +48,8 @@ def parse_toc(args: argparse.Namespace, css_dict: dict, enable_update_pdf=False)
 
         for one_block in blocks:
             context = one_block['lines'][0]['spans'][0]
-            logger.debug(context)
             if context['flags'] == 4:
+                logger.debug(context)
                 for key, values in css_dict.items():
                     pattern = re.compile(re_head_title)
                     match_obj = pattern.match(key)
@@ -60,17 +59,18 @@ def parse_toc(args: argparse.Namespace, css_dict: dict, enable_update_pdf=False)
                             pattern = re.compile(re_font_size)
                             # only support pt for font-size
                             match_obj = pattern.match(values['font-size'])
-                            # logger.debug(int(context['size']), round(context['size']))
-                            if match_obj and int(match_obj.group(1)) == round(context['size']):
-                                line_local = context['bbox'][1]
-                                point = fitz.Point(0, float(line_local))
-                                if not enable_main_title and bmk_level != args.level:
-                                    logger.debug('continue...')
-                                    continue
-                                elif not enable_main_title:
-                                    enable_main_title = True
-                                toc.append([bmk_level - args.level + 1, context['text'], page_num, {
-                                           'kind': fitz.LINK_GOTO, 'to': point, 'collapse': 1}])
+                            if match_obj:
+                                expected_fs = float(match_obj.group(1))
+                                logger.debug(f"{key}: {context['size']}, {int(context['size'])}, {round(expected_fs)} == {round(context['size'])}")
+                                if round(expected_fs) == round(context['size']):
+                                    line_local = context['bbox'][1]
+                                    point = fitz.Point(0, float(line_local))
+                                    if bmk_level < args.level_min or bmk_level > args.level_max:
+                                        logger.debug('Ignoring...')
+                                        continue
+
+                                    toc.append([bmk_level - args.level_min, context['text'], page_num, {
+                                            'kind': fitz.LINK_GOTO, 'to': point, 'collapse': 1}])
 
     logger.debug(toc)
     toclen = len(toc)
@@ -125,14 +125,15 @@ def main(doc=None):
         default=f'{DOCXPROD_ROOT}/data/pdf_bookmark_default.css',
         help='Provided the pdf bookmark css file')
     parser.add_argument(
-        '--level',
+        '--level-min',
         type=int,
-        default='2',
-        help='Provided the level of title')
+        default='1',
+        help='Provided the min level of title')
     parser.add_argument(
-        '--enable-main-title',
-        action='store_true',
-        help='Enabled the main title')
+        '--level-max',
+        type=int,
+        default='4',
+        help='Provided the max level of title')
     parser.add_argument(
         '--verbose',
         '-v',
@@ -143,7 +144,7 @@ def main(doc=None):
 
     try:
         update_toc_bookmark(args, enable_update_pdf=True)
-        logger.info(f"Updated toc to pdf done.")
+        logger.info(f"Updated bookmark to pdf done.")
     except Exception as e:
         #logging.error(e)
         traceback.print_exc()

@@ -7,10 +7,11 @@
 import argparse
 import logging
 import re
-import fitz  # pymupdf
 from pathlib import Path as path
 
-from .docxprod_helper import (DOCXPROD_ROOT, logger_init)
+import fitz  # pymupdf
+
+from .docxprod_helper import DOCXPROD_ROOT, logger_init
 
 logger = logging.getLogger(__name__)
 
