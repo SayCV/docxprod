@@ -24,6 +24,7 @@ entry_points = {
         "pdfilter-docx-svg2emf = docxprod.pdfilter_docx_svg2emf:main",
         "pdfilter-docx-tab-update-wdith = docxprod.pdfilter_docx_tab_update_wdith:main",
         "pdpost-docx-update-fields = docxprod.pdpost_docx_update_fields:main",
+        "pdpost-pdf-update-numpages = docxprod.pdpost_pdf_update_numpages:main",
     ],
 }
 
@@ -31,6 +32,7 @@ install_requires = [
     "argcomplete >= 1.8.2",
     "colorama >= 0.3.7",
     "panflute >= 2.1.3",
+    "pymupdf >= 1.21.1",
 ]
 
 setup(

@@ -5,15 +5,13 @@
 """
 
 import argparse
-import functools
 import logging
-import os
 import time
 from pathlib import Path as path
 
 import win32com.client
 
-from .docxprod_helper import DOCXPROD_ROOT
+from .docxprod_helper import (DOCXPROD_ROOT, logger_init)
 
 logger = logging.getLogger(__name__)
 
@@ -46,15 +44,6 @@ def update_fields(filepath: path):
 
 def main(doc=None):
 
-    # Setup logging for displaying background information to the user.
-    logging.basicConfig(
-        style="{", format="[{levelname:<7}] {message}", level=logging.INFO
-    )
-    # Add a custom status level for logging.
-    logging.addLevelName(25, "STATUS")
-    logging.Logger.status = functools.partialmethod(logging.Logger.log, 25)
-    logging.status = functools.partial(logging.log, 25)
-
     parser = argparse.ArgumentParser()
     # Create Arguments
     parser.add_argument(
@@ -73,6 +62,7 @@ def main(doc=None):
         action='store_true',
         help='Show the verbose output to the terminal')
     args = parser.parse_args()
+    logger_init(args)
 
     try:
         update_fields(args.input)
