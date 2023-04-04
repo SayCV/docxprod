@@ -225,6 +225,11 @@ def main(doc=None):
         type=path,
         help='The path to the input pdf file')
     parser.add_argument(
+        '--markdown-file',
+        type=path,
+        default=None,
+        help='Parse toc contents from the markdown file')
+    parser.add_argument(
         '--shift-heading-level-by',
         type=int,
         metavar='NUMBER',

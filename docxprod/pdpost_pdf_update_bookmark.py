@@ -128,6 +128,11 @@ def main(doc=None):
         default=f'{DOCXPROD_ROOT}/data/pdf_bookmark_default.css',
         help='Provided the pdf bookmark css file')
     parser.add_argument(
+        '--markdown-file',
+        type=path,
+        default=None,
+        help='Parse toc contents from the markdown file')
+    parser.add_argument(
         '--shift-heading-level-by',
         type=int,
         metavar='NUMBER',
