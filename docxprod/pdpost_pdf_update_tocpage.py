@@ -139,7 +139,7 @@ def update_toc_page(args: argparse.Namespace, toc: list):
         font = fitz.Font(fontname=fontname, fontfile=fontfile, fontbuffer=None)
         logger.debug(page.get_fonts())
 
-        text = '\u76ee\u5f55'
+        text = '\u76ee  \u5f55'
         fontsize = 28
         #text_width = page.get_text_length(text, fontname=fontname)
         text_width = font.text_length(text, fontsize=fontsize)
@@ -195,7 +195,7 @@ def update_toc_page(args: argparse.Namespace, toc: list):
     pdf.close()
 
 def generated_toc_page_html(toc) -> str:
-    toc_page_title = '\u76ee\u5f55'
+    toc_page_title = '\u76ee  \u5f55'
     toc_page_head = f'<html>\n<body>\n<div class="print-toc">\n<h1>{toc_page_title}</h1>'
     toc_page_tail = '</div>\n</body>\n</html>'
 

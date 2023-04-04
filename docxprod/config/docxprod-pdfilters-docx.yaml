@@ -9,5 +9,5 @@ filters:
 - pdfilter-docx-centertext
 - pdfilter-docx-pagebreak
 - pdfilter-docx-svg2emf
-- pdfilter-docx-tab-update-wdith
+- pdfilter-docx-update-tabwdith
 - citeproc
