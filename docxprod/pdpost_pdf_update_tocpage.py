@@ -233,7 +233,7 @@ def main(doc=None):
         '--shift-heading-level-by',
         type=int,
         metavar='NUMBER',
-        default='1',
+        default='-1',
         help='Provided the min level of title')
     parser.add_argument(
         '--toc-depth',
@@ -251,7 +251,7 @@ def main(doc=None):
 
     try:
         args.pdf_bookmark_css = f'{DOCXPROD_ROOT}/data/pdf_bookmark_default.css'
-        toc = update_toc_bookmark(args, enable_update_pdf=False)
+        toc = update_toc_bookmark(args, enable_update_pdf=True)
         update_toc_page(args, toc)
         logger.info(f"Updated toc page to pdf done.")
     except Exception as e:
