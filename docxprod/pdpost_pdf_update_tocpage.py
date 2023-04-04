@@ -225,14 +225,16 @@ def main(doc=None):
         type=path,
         help='The path to the input pdf file')
     parser.add_argument(
-        '--level-min',
+        '--shift-heading-level-by',
         type=int,
+        metavar='NUMBER',
         default='1',
         help='Provided the min level of title')
     parser.add_argument(
-        '--level-max',
+        '--toc-depth',
         type=int,
-        default='4',
+        metavar='NUMBER',
+        default='3',
         help='Provided the max level of title')
     parser.add_argument(
         '--verbose',

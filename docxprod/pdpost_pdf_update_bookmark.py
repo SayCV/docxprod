@@ -32,6 +32,9 @@ def parse_css(filepath: path) -> dict:
     return css_dict
 
 def parse_toc(args: argparse.Namespace, css_dict: dict, enable_update_pdf=False) -> list:
+    level_min = 0 - args.shift_heading_level_by
+    level_max = args.toc_depth - args.shift_heading_level_by
+
     re_font_size = r'(\d+)pt'
     re_head_title = r'h(\d+)'
 
@@ -65,11 +68,11 @@ def parse_toc(args: argparse.Namespace, css_dict: dict, enable_update_pdf=False)
                                 if round(expected_fs) == round(context['size']):
                                     line_local = context['bbox'][1]
                                     point = fitz.Point(0, float(line_local))
-                                    if bmk_level < args.level_min or bmk_level > args.level_max:
+                                    if bmk_level < level_min or bmk_level > level_max:
                                         logger.debug('Ignoring...')
                                         continue
 
-                                    toc.append([bmk_level - args.level_min, context['text'], page_num, {
+                                    toc.append([bmk_level - level_min, context['text'], page_num, {
                                             'kind': fitz.LINK_GOTO, 'to': point, 'collapse': 1}])
 
     logger.debug(toc)
@@ -125,14 +128,16 @@ def main(doc=None):
         default=f'{DOCXPROD_ROOT}/data/pdf_bookmark_default.css',
         help='Provided the pdf bookmark css file')
     parser.add_argument(
-        '--level-min',
+        '--shift-heading-level-by',
         type=int,
-        default='1',
+        metavar='NUMBER',
+        default='-1',
         help='Provided the min level of title')
     parser.add_argument(
-        '--level-max',
+        '--toc-depth',
         type=int,
-        default='4',
+        metavar='NUMBER',
+        default='3',
         help='Provided the max level of title')
     parser.add_argument(
         '--verbose',
