@@ -1,0 +1,9 @@
+/* Including one css file into other */
+@import url("file:///${DOCXPROD_ROOT}/data/markdown.css");
+@import url("file:///${DOCXPROD_ROOT}/data/markdown-headtitle-resized.css");
+@import url("file:///${DOCXPROD_ROOT}/data/markdown-inline-code-fixed.css");
+@import url("file:///${DOCXPROD_ROOT}/data/markdown-footnotes.css");
+@import url("file:///${DOCXPROD_ROOT}/data/markdown-mermaid.css");
+@import url("file:///${DOCXPROD_ROOT}/data/markdown-katex-math.css");
+@import url("file:///${DOCXPROD_ROOT}/data/markdown-table-fullwidth.css");
+@import url("file:///${DOCXPROD_ROOT}/data/markdown-table-fulloutline.css");

@@ -1,0 +1,14 @@
+
+/*
+ * GFM footnotes
+ */
+
+ [class="footnotes"] {
+	margin-top: 2em;
+	border-top: 1px var(--line) solid;
+}
+
+[class="footnotes"] li {
+	font-size: 0.9rem;
+	list-style-position: outside;
+}

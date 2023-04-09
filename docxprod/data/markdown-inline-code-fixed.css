@@ -1,0 +1,17 @@
+
+code {
+	/*元素内的空白保留，并允许换行*/
+	white-space: pre-wrap !important;
+	/*是否允许在单词内断句*/
+	word-wrap: break-word !important;
+	/*强调怎么样断句*/
+	/*word-break: break-all !important;*/
+}
+
+/* for inline code */
+:not(pre):not(.hljs)>code {
+	color: rgb(33, 160, 237);
+	/* Change the old color so it seems less like an error */
+	font-size: inherit;
+	font-weight: bold;
+}

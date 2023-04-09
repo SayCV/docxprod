@@ -1,0 +1,11 @@
+
+/*
+ * Mermaid diagrams
+ */
+
+ [class="mermaid"] svg {
+	background: var(--background);
+	object-fit: cover;
+	width: 100%;
+	height: 100%;
+}

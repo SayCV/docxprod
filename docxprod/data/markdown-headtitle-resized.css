@@ -1,0 +1,22 @@
+
+h1 {
+	border-bottom-width: 0px;
+	border-bottom-style: solid;
+	text-transform: uppercase;
+	text-align: center;
+}
+
+h2,
+h3,
+h4,
+h5,
+h6 {
+	margin: 20px 0 10px;
+	padding: 0;
+	font-weight: bold;
+	-webkit-font-smoothing: antialiased;
+	/* http://t.zoukankan.com/zy-plan-p-5995848.html
+	 * STKaiti STZhongsong STFangsong
+	 */
+	font-family: 'STKaiti', 'SimSun', sans-serif;
+}
