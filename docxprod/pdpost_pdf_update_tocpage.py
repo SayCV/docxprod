@@ -132,15 +132,24 @@ def update_toc_page(args: argparse.Namespace, toc: list):
         vMargin = 20
         available_width = page_width - 2 * hMargin
 
-        fontname = 'HT'
-        fontfile = r"C:/Windows/Fonts/simhei.ttf"
-        page.insert_font(fontname=fontname, fontfile=fontfile,
-                         fontbuffer=None, set_simple=False)
-        font = fitz.Font(fontname=fontname, fontfile=fontfile, fontbuffer=None)
-        logger.debug(page.get_fonts())
+        font_sel = 1
+        if font_sel == 1:
+            fontname = 'HT'
+            fontfile = r"C:/Windows/Fonts/simhei.ttf"
+            page.insert_font(fontname=fontname, fontfile=fontfile,
+                            fontbuffer=None, set_simple=False)
+            font = fitz.Font(fontname=fontname, fontfile=fontfile, fontbuffer=None)
+            fontsize_title = 28
+            fontsize_body = 12
+        else:
+            fontname = 'china-ss'
+            font = fitz.Font(fontname=fontname)
+            logger.debug(page.get_fonts())
+            fontsize_title = 18
+            fontsize_body = 8
 
         text = '\u76ee  \u5f55'
-        fontsize = 28
+        fontsize = fontsize_title
         #text_width = page.get_text_length(text, fontname=fontname)
         text_width = font.text_length(text, fontsize=fontsize)
         px = (page_width - text_width) / 2
@@ -148,7 +157,7 @@ def update_toc_page(args: argparse.Namespace, toc: list):
         page.insert_text((px, py), text, fontname=fontname, fontsize=fontsize, color=(0, 0, 0, 1), fill=None, render_mode=0,
                          border_width=1, rotate=0, morph=None, overlay=True)
 
-        fontsize = 12
+        fontsize = fontsize_body
         row_space = 32
         px = hMargin
         py += row_space
@@ -159,7 +168,7 @@ def update_toc_page(args: argparse.Namespace, toc: list):
             page_num = toc_entry.pagenum
             vpos = toc_entry.vpos
 
-            fontsize = 12 if level < 2 else 12 #10.5
+            fontsize = fontsize_body if level < 2 else fontsize_body #10.5
             row_space = 10 if level < 2 else 10
             toc_entry.title = ' ' * 4 * (level - 1) + toc_entry.title
             text = f"{toc_entry.title}{page_num}"
