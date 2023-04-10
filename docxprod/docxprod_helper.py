@@ -8,7 +8,7 @@ import functools
 import logging
 from pathlib import Path as path
 
-DOCXPROD_ROOT = path(__file__).resolve().parent.as_posix()
+DOCXPROD_ROOT = path(__file__).resolve().parent
 
 def logger_init(args=None):
 
@@ -26,7 +26,7 @@ def logger_init(args=None):
         logging.getLogger("").setLevel(logging.DEBUG)
 
 def main():
-    print(DOCXPROD_ROOT)
+    print(DOCXPROD_ROOT.as_posix())
 
 
 if __name__ == "__main__":
