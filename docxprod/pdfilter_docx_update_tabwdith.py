@@ -17,7 +17,7 @@ class DocxTableUpdateWidth(object):
     def action(self, elem, doc):
         if (doc.format == "docx"):
             if isinstance(elem, pf.Table):
-                pf.debug(f"Processing table update width at index {elem.index}")
+                pf.debug(f"Processing update table width at index {elem.index}")
                 for idx, colspec in enumerate(elem.colspec):
                     colalign = colspec[0]
                     colwidth = colspec[1]
