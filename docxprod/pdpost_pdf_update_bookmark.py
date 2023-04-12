@@ -65,7 +65,8 @@ def parse_toc(args: argparse.Namespace, css_dict: dict, enable_update_pdf=False)
                             if match_obj:
                                 expected_fs = float(match_obj.group(1))
                                 #logger.debug(f"{key}: {context['size']}, {int(context['size'])}, {round(expected_fs)} == {round(context['size'])}")
-                                if round(expected_fs) == round(context['size']):
+                                #if round(expected_fs) == round(context['size']):
+                                if expected_fs - 1 < context['size'] and expected_fs + 1 > context['size']:
                                     line_local = context['bbox'][1]
                                     point = fitz.Point(0, float(line_local))
                                     if bmk_level < level_min or bmk_level > level_max:
