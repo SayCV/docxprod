@@ -8,14 +8,23 @@ Column width can get passed to the table as an attribute in its caption:
 - pdfilter-docx-update-tabwdith
 """
 
+import os
+import sys
 import panflute as pf
 
 DOCX_TABLE_FULL_WIDTH_DEFAULT = 9576
 
 class DocxTableUpdateWidth(object):
 
+    def __init__(self):
+        self.enable_table_fullwidth = True
+        env_enable = os.environ.get('enable_table_fullwidth')
+        if env_enable:
+            self.enable_table_fullwidth = False if env_enable.lower() in 'false' else True
+        pf.debug(f':: Used enable_table_fullwidth: {self.enable_table_fullwidth}')
+
     def action(self, elem, doc):
-        if (doc.format == "docx"):
+        if self.enable_table_fullwidth and doc.format == "docx":
             if isinstance(elem, pf.Table):
                 pf.debug(f"Processing update table width at index {elem.index}")
                 for idx, colspec in enumerate(elem.colspec):
