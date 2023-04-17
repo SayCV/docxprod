@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html$if(lang)$ lang="$lang$"$endif$$if(dir)$ dir="$dir$"$endif$>
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="pandoc">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+$for(author-meta)$
+  <meta name="author" content="$author-meta$">
+$endfor$
+$if(date-meta)$
+  <meta name="dcterms.date" content="$date-meta$">
+$endif$
+$if(keywords)$
+  <meta name="keywords" content="$for(keywords)$$keywords$$sep$, $endfor$">
+$endif$
+$if(subtitle0)$
+  <meta name="subtitle0" content="$subtitle0$">
+$endif$
+$if(subtitle1)$
+  <meta name="subtitle1" content="$subtitle1$">
+$endif$
+$if(subtitle2)$
+  <meta name="subtitle2" content="$subtitle2$">
+$endif$
+$if(subtitle3)$
+  <meta name="subtitle3" content="$subtitle3$">
+$endif$
+$if(subtitle4)$
+  <meta name="subtitle4" content="$subtitle4$">
+$endif$
+$if(subtitle5)$
+  <meta name="subtitle5" content="$subtitle5$">
+$endif$
+$if(sign1)$
+  <meta name="sign1" content="$sign1$">
+$endif$
+$if(sign2)$
+  <meta name="sign2" content="$sign2$">
+$endif$
+$if(sign3)$
+  <meta name="sign3" content="$sign3$">
+$endif$
+$if(endtitle1)$
+  <meta name="endtitle1" content="$endtitle1$">
+$endif$
+$if(header-title)$
+  <meta name="header-title" content="$header-title$">
+$endif$
+$if(toc-title)$
+  <meta name="toc-title" content="$toc-title$">
+$endif$
+$if(toc-own-page)$
+  <meta name="toc-own-page" content="$toc-own-page$">
+$endif$
+$if(pagetitle_visable)$
+  <title>$if(title-prefix)$$title-prefix$ – $endif$$pagetitle$</title>
+$endif$
+  <style type="text/css">code{white-space: pre;}</style>
+$if(quotes)$
+  <style type="text/css">q { quotes: "“" "”" "‘" "’"; }</style>
+$endif$
+$if(highlighting-css)$
+  <style type="text/css">
+$highlighting-css$
+  </style>
+$endif$
+$for(css)$
+  <link rel="stylesheet" href="$css$">
+$endfor$
+$if(math)$
+  $math$
+$endif$
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+$for(header-includes)$
+  $header-includes$
+$endfor$
+</head>
+<body>
+$for(include-before)$
+$include-before$
+$endfor$
+<article>
+$if(title_visable)$
+<header>
+<h1 class="title">$title$</h1>
+$if(subtitle_visable)$
+<p class="subtitle">$subtitle$</p>
+$endif$
+$if(date_visable)$
+<p class="byline">$date$$if(author)$ &ndash; $author$$endif$</p>
+$else$
+$if(author_visable)$
+<p class="byline">$author$</p>
+$endif$
+$endif$
+</header>
+$endif$
+$if(toc)$
+<nav id="$idprefix$TOC">
+$toc$
+</nav>
+$endif$
+$body$
+</article>
+$for(include-after)$
+$include-after$
+$endfor$
+</body>
+</html>
