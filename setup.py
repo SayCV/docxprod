@@ -20,6 +20,7 @@ entry_points = {
     'console_scripts': [
         "docxprod-helper = docxprod.docxprod_helper:main",
         "pdfilter-docx-centertext = docxprod.pdfilter_docx_centertext:main",
+        "pdfilter-docx-colortext = docxprod.pdfilter_docx_colortext:main",
         "pdfilter-docx-pagebreak = docxprod.pdfilter_docx_pagebreak:main",
         "pdfilter-docx-svg2emf = docxprod.pdfilter_docx_svg2emf:main",
         "pdfilter-docx-update-tabwdith = docxprod.pdfilter_docx_update_tabwdith:main",
@@ -36,6 +37,7 @@ install_requires = [
     "panflute >= 2.1.3",
     "pymupdf >= 1.21.1",
     "cssutils >= 2.3.0",
+    "colordict >= 1.2.6",
 ]
 
 setup(

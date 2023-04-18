@@ -7,6 +7,7 @@ filters:
 - pandoc-eqnos
 - pandoc-secnos
 - pdfilter-docx-centertext
+- pdfilter-docx-colortext
 - pdfilter-docx-pagebreak
 - pdfilter-docx-svg2emf
 - pdfilter-docx-update-tabwdith
