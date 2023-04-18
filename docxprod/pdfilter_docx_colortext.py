@@ -5,7 +5,7 @@
 """
 
 from functools import partial
-from colordict import *
+from colorutils import *
 import panflute as pf
 
 def stringify(element, newlines=True):
@@ -51,20 +51,29 @@ class DocxColortext(object):
     def action(self, elem, doc):
         if type(elem) == pf.Span and "style" in elem.attributes and 'color' in elem.attributes["style"]:
             if (doc.format == "docx"):
-                pf.debug(f"Processing color text at line {elem.index}: {pf.stringify(elem)}")
                 style = elem.attributes["style"]
                 f1 = style.split(':')
                 color = None
-                color_hex_dict = ColorDict(mode='hex')
                 if len(f1) > 1 and f1[0] in 'color':
                     color = f1[1]
-                color_hex = color_hex_dict[color]
+
+                try:
+                    color_hex = rgb_to_hex(web_colors[color])
+                except KeyError as e:
+                    #pf.debug(f"KeyError: {e}")
+                    try:
+                        r, g, b = eval(color.lower().lstrip("rgb"))
+                        color_hex = rgb_to_hex((r, g, b))
+                    except (ValueError, SyntaxError) as e:
+                        #pf.debug(f"ValueError: {e}")
+                        color_hex = color
                 color_hex = color_hex.lstrip("#")
 
                 _elem = []
                 text_list = stringify(elem).split('\n')
                 for text in text_list:
                     _elem.append(self.colortext(color_hex, text))
+                pf.debug(f"Processing {color_hex} text at line {elem.index}: {pf.stringify(elem)}")
                 elem = pf.RawInline('<w:r><w:br /></w:r>'.join(_elem), format="openxml")
         return elem
 

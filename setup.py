@@ -37,7 +37,7 @@ install_requires = [
     "panflute >= 2.1.3",
     "pymupdf >= 1.21.1",
     "cssutils >= 2.3.0",
-    "colordict >= 1.2.6",
+    "colorutils >= 0.3.0",
 ]
 
 setup(
