@@ -27,6 +27,9 @@ class DocxTableUpdateWidth(object):
         if self.enable_table_fullwidth and doc.format == "docx":
             if isinstance(elem, pf.Table):
                 pf.debug(f"Processing update table width at index {elem.index}")
+                _cols_nom = 0.0
+                max_col_idx = 0
+                max_col_w = 0
                 for idx, colspec in enumerate(elem.colspec):
                     colalign = colspec[0]
                     colwidth = colspec[1]
@@ -34,6 +37,14 @@ class DocxTableUpdateWidth(object):
                         elem.colspec[idx] = (colalign, 1.0/elem.cols)
                     elif isinstance(colwidth, float):
                         pass
+                    if elem.colspec[idx][1] * 1000 > max_col_w * 1000:
+                        max_col_w = elem.colspec[idx][1]
+                        max_col_idx = idx
+                    _cols_nom = _cols_nom + elem.colspec[idx][1]
+                    #pf.debug(elem.colspec[idx])
+                if 100 - _cols_nom * 100 > 1:
+                    elem.colspec[max_col_idx] = (elem.colspec[max_col_idx][0], elem.colspec[max_col_idx][1] + 1 - _cols_nom)
+                    #pf.debug(f" :: Resized [{max_col_idx}] {elem.colspec[max_col_idx]}")
                 return elem
 
 def main(doc=None):
