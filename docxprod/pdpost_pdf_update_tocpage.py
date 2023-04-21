@@ -122,11 +122,12 @@ def update_toc_page(args: argparse.Namespace, toc: list):
 
     if toc:
         logger.info(f"Convert toc bookmark to toc page.")
+        toc_page_num = 0
         # page_width, page_height = fitz.paper_size("A4") # 595, 842
         page_width, page_height = pdf[0].rect.width, pdf[0].rect.height
         logger.info(f"Page Width = {page_width}, Page Height = {page_height}")
         page: fitz.Page = pdf.new_page(
-            pno=0, width=page_width, height=page_height)
+            pno=toc_page_num, width=page_width, height=page_height)
 
         hMargin = 20
         vMargin = 20
@@ -161,12 +162,24 @@ def update_toc_page(args: argparse.Namespace, toc: list):
         row_space = 32
         px = hMargin
         py += row_space
+        abs_py_start = py
         row_space = 22
         for line, _toc in enumerate(toc):
             toc_entry = ToCEntry(_toc[0], _toc[1], _toc[2], _toc[3])
             level = toc_entry.level
-            page_num = toc_entry.pagenum
+            page_num = toc_entry.pagenum + toc_page_num
             vpos = toc_entry.vpos
+            if py + abs_py_start >= page_height:
+                toc_page_num = toc_page_num + 1
+                logger.info(f"Consider add new toc page after: {toc_entry.title}")
+                page: fitz.Page = pdf.new_page(pno=toc_page_num, width=page_width, height=page_height)
+                px = hMargin
+                py = abs_py_start
+                if font_sel == 1:
+                    page.insert_font(fontname=fontname, fontfile=fontfile,
+                                    fontbuffer=None, set_simple=False)
+                else:
+                    font = fitz.Font(fontname=fontname)
 
             fontsize = fontsize_body if level < 2 else fontsize_body #10.5
             row_space = 10 if level < 2 else 10
