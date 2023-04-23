@@ -4,12 +4,18 @@
   <meta charset="utf-8">
   <meta name="generator" content="pandoc">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-$for(author-meta)$
-  <meta name="author" content="$author-meta$">
+$for(author)$
+  <meta name="author" content="$author$">
 $endfor$
-$if(date-meta)$
-  <meta name="dcterms.date" content="$date-meta$">
+$for(author-enable)$
+  <meta name="enableauthor" content="$author-enable$">
+$endfor$
+$if(date)$
+  <meta name="date" content="$date$">
 $endif$
+$for(date-enable)$
+  <meta name="enabledate" content="$date-enable$">
+$endfor$
 $if(keywords)$
   <meta name="keywords" content="$for(keywords)$$keywords$$sep$, $endfor$">
 $endif$

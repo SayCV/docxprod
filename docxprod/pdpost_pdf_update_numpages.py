@@ -24,7 +24,7 @@ def get_pdf_numpages(filepath: path) -> int:
 def update_pdf_numpages_to_metadata(filepath: path, page_count: int):
     with open(filepath, "r+", encoding='utf-8') as f:
         metadata = f.read()
-        new_metadata = re.sub(r"""subtitle4: .*""", "subtitle4: " + str(page_count), metadata)
+        new_metadata = re.sub(r"""numpages: .*""", "numpages: " + str(page_count), metadata)
         f.seek(0)
         f.truncate() # clear content
         f.write(new_metadata)
