@@ -51,7 +51,7 @@ def parse_toc(args: argparse.Namespace, css_dict: dict, enable_update_pdf=False)
 
         for one_block in blocks:
             context = one_block['lines'][0]['spans'][0]
-            if context['flags'] == 4:
+            if context['flags'] == 4 and not context['font'] in "TimesNewRomanPSMT":
                 logger.debug(context)
                 for key, values in css_dict.items():
                     pattern = re.compile(re_head_title)
