@@ -5,16 +5,16 @@
   <meta name="generator" content="pandoc">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 $for(author)$
-  <meta name="author" content="$author$">
+  <meta name="author-meta" content="$author$">
 $endfor$
 $for(author-enable)$
-  <meta name="enableauthor" content="$author-enable$">
+  <meta name="author-enable" content="$author-enable$">
 $endfor$
 $if(date)$
-  <meta name="date" content="$date$">
+  <meta name="date-meta" content="$date$">
 $endif$
 $for(date-enable)$
-  <meta name="enabledate" content="$date-enable$">
+  <meta name="date-enable" content="$date-enable$">
 $endfor$
 $if(keywords)$
   <meta name="keywords" content="$for(keywords)$$keywords$$sep$, $endfor$">
