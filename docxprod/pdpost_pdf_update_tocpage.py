@@ -6,6 +6,7 @@
 
 import argparse
 import logging
+import os
 import re
 import traceback
 from pathlib import Path as path
@@ -91,6 +92,45 @@ def make_msg(font):
     msg = ", ".join(msg)
     return msg
 
+def get_margin_from_env():
+    re_margin_size = r'(?P<num>[.\d]+)(?P<unit>[a-zA-Z]+)'
+    pattern = re.compile(re_margin_size)
+
+    def parse_margin_from_env(margin_hv): # margin_hv in ["hMargin", "vMargin"]
+        hvMargin = 20
+        try:
+            env_var = os.environ.get(margin_hv)
+            logging.debug(f"{margin_hv}={env_var}")
+            if env_var:
+                matched = pattern.match(env_var)
+                if matched:
+                    _fields = matched.groupdict()
+                    _num  = float(_fields[u'num'])
+                    _unit = _fields[u'unit']
+                    _points = 0.0
+                    if _unit == "mm":
+                        _points = _num * 72 / 25.4
+                    elif _unit == "mil":
+                        _points = _num * 72 / 100.0
+                    elif _unit == "inch":
+                        _points = _num * 72 / 1.0
+                    elif _unit == "pt":
+                        _points = _num * 1.0
+                    else:
+                        _points = 20
+                    hvMargin = _points
+        except Exception as e:
+            logging.error(e)
+        return hvMargin
+    
+    
+    hMargin = parse_margin_from_env("hMargin")
+    vMargin = parse_margin_from_env("vMargin")
+    hMargin = 00 + 72.0 - hMargin if (hMargin <= 72) else hMargin
+    vMargin = 36 + 72.0 - vMargin if (vMargin <= 72) else vMargin
+
+    return (hMargin, vMargin)
+
 def get_font_list(pdf) -> list:
     font_list = set()
     for i in range(len(pdf)):
@@ -123,14 +163,17 @@ def update_toc_page(args: argparse.Namespace, toc: list):
     if toc:
         logger.info(f"Convert toc bookmark to toc page.")
         toc_page_num = 0
+        # in units called points. One point equals 1/72 of an inch
+        # 1 inch = 25.4mm = 100 mil = 72 Point
+        # 1 Pixel = (96/72) * Point
         # page_width, page_height = fitz.paper_size("A4") # 595, 842
         page_width, page_height = pdf[0].rect.width, pdf[0].rect.height
         logger.info(f"Page Width = {page_width}, Page Height = {page_height}")
         page: fitz.Page = pdf.new_page(
             pno=toc_page_num, width=page_width, height=page_height)
 
-        hMargin = 20
-        vMargin = 20
+        hMargin, vMargin = get_margin_from_env()
+        logging.info(f"--> hMargin={hMargin}, vMargin={vMargin}")
         available_width = page_width - 2 * hMargin
 
         font_sel = 1
