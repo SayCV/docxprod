@@ -179,7 +179,7 @@ def update_toc_page(args: argparse.Namespace, toc: list):
         font_sel = 1
         if font_sel == 1:
             fontfile_lookup = [
-                ['SarasaTermSCNerdRegular', 'sarasa-term-sc-nerd-regular.ttf'],
+                ['SarasaTermSC', 'sarasa-term-sc-regular.ttf'],
                 ['HT', 'simhei.ttf']
             ]
             for _fontfile in fontfile_lookup:
