@@ -178,8 +178,30 @@ def update_toc_page(args: argparse.Namespace, toc: list):
 
         font_sel = 1
         if font_sel == 1:
-            fontname = 'HT'
-            fontfile = r"C:/Windows/Fonts/simhei.ttf"
+            fontfile_lookup = [
+                ['SarasaTermSCNerdRegular', 'sarasa-term-sc-nerd-regular.ttf'],
+                ['HT', 'simhei.ttf']
+            ]
+            for _fontfile in fontfile_lookup:
+                __fontname = _fontfile[0]
+                __fontfile = _fontfile[1]
+                _ck_fontfile = f"C:/Windows/Fonts/{__fontfile}"
+                if path(_ck_fontfile).exists():
+                    fontname =  __fontname
+                    __fontfile =  _ck_fontfile
+                    break
+                else:
+                    appdata = os.getenv("LOCALAPPDATA")
+                    if appdata:
+                        _ck_fontfile = f"{appdata}/Microsoft/Windows/Fonts/{__fontfile}"
+                        if path(_ck_fontfile).exists():
+                            fontname =  __fontname
+                            __fontfile =  _ck_fontfile
+                            break
+                pass
+            fontname = __fontname
+            fontfile = __fontfile
+            logging.info(f"Used fontname={fontname}, fontfile={fontfile}")
             page.insert_font(fontname=fontname, fontfile=fontfile,
                             fontbuffer=None, set_simple=False)
             font = fitz.Font(fontname=fontname, fontfile=fontfile, fontbuffer=None)
