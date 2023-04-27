@@ -7,10 +7,11 @@ use std::io::{self, Read, Write};
 use lazy_static::lazy_static;
 use regex::Regex;
 
-struct MyVisitor;
+struct MyVisitor {
+    processed_count: i32,
+}
 
 static PAGEBREAK: &str = r#"<w:p><w:r><w:br w:type="page" /></w:r></w:p>"#;
-static mut OCCURS: i32 = 0;
 
 impl MutVisitor for MyVisitor {
     fn visit_block(&mut self, block: &mut Block) {
@@ -21,11 +22,15 @@ impl MutVisitor for MyVisitor {
                     if extra_attr.0.eq_ignore_ascii_case("style") {
                         lazy_static! {
                             static ref RE_PAGE_BREAK: Regex =
-                                Regex::new(r"page-break-after\s+:\s+always;").unwrap();
+                                Regex::new(r#"page-break-after: always;"#).unwrap();
                         }
+                        //eprintln!("--> {}", extra_attr.1.to_lowercase());
                         if RE_PAGE_BREAK.is_match(&extra_attr.1.to_lowercase()) {
-                            *block = Block::RawBlock(Format("openxml".to_string()), PAGEBREAK.to_string());
-                            unsafe { OCCURS+=1 };
+                            *block = Block::RawBlock(
+                                Format("openxml".to_string()),
+                                PAGEBREAK.to_string(),
+                            );
+                            self.processed_count += 1;
                             break;
                         }
                     }
@@ -38,11 +43,14 @@ impl MutVisitor for MyVisitor {
 
 fn main() {
     let mut s = String::new();
+    let mut my_visitor = MyVisitor { processed_count: 0, };
     io::stdin().read_to_string(&mut s).unwrap();
     let s = pandoc_ast::filter(s, |mut pandoc| {
-        MyVisitor.walk_pandoc(&mut pandoc);
+        my_visitor.walk_pandoc(&mut pandoc);
         pandoc
     });
-    unsafe { if OCCURS >0 { eprintln!("-> Processed page break at {} positions.", OCCURS); } }
+    if my_visitor.processed_count > 0 {
+        eprintln!("-> Processed page break at {} positions.", my_visitor.processed_count);
+    }
     io::stdout().write(s.as_bytes()).unwrap();
 }
