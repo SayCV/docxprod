@@ -4,6 +4,7 @@
 - pdfilter-docx-centertext
 """
 
+import pandocxnos
 import panflute as pf
 
 
@@ -47,6 +48,10 @@ class DocxCentertext(object):
 
 
 def main(doc=None):
+    PANDOCVERSION = pandocxnos.init(None, doc)
+    if pandocxnos.version(PANDOCVERSION) <= pandocxnos.version('1.0'):
+        pf.debug(f"Not support for Pandoc version: {PANDOCVERSION}")
+        return pf.run_filters([])
     dp = DocxCentertext()
     return pf.run_filters([dp.action], doc=doc)
 
