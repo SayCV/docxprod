@@ -1,0 +1,25 @@
+[package]
+name = "pdfilter-rs"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[[bin]]
+name = "docxprod-rs-helper"
+path = "src/docxprod_rs_helper.rs"
+
+[[bin]]
+name = "pdfilter-rs-docx-pagebreak"
+path = "src/pdfilter_docx_pagebreak.rs"
+
+[dependencies]
+clap = "4.2"
+log = "0.4.17"
+env_logger = "0.10"
+lazy_static = "1.4"
+pathdiv = "0.1"
+glob = "0.3"
+regex = "1.7"
+pandoc_ast = "0.8"
+dict = "0.1"
