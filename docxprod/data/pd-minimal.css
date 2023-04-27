@@ -29,7 +29,7 @@ th {
 td, th {
   font-size: 1.4rem;
   padding: 10px;
-  text-align: left;
+  /*text-align: left;*/
 }
 
 /* Allow tables to be full width

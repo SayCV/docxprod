@@ -7,7 +7,7 @@ table {
 }
 
 table>thead>tr>th {
-	text-align: left;
+	text-align: center;
 	border-left: 1px solid;
 	border-top: 1px solid;
 	border-right: 1px solid;
