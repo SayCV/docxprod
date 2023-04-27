@@ -4,6 +4,7 @@
 - pdfilter-docx-pagebreak
 """
 
+import pandocxnos
 import panflute as pf
 
 
@@ -22,6 +23,10 @@ class DocxPagebreak(object):
 
 
 def main(doc=None):
+    PANDOCVERSION = pandocxnos.init(None, doc)
+    if pandocxnos.version(PANDOCVERSION) <= pandocxnos.version('1.0'):
+        pf.debug(f"Not support for Pandoc version: {PANDOCVERSION}")
+        return pf.run_filters([])
     dp = DocxPagebreak()
     return pf.run_filters([dp.action], doc=doc)
 
