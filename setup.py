@@ -38,7 +38,7 @@ install_requires = [
     "pymupdf >= 1.21.1",
     "cssutils >= 2.3.0",
     "colorutils >= 0.3.0",
-    "pandocxnos >= 2.5.0",
+    "pandoc-xnos >= 2.5.0",
 ]
 
 setup(
