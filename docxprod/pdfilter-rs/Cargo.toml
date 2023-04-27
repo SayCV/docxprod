@@ -7,7 +7,11 @@ edition = "2021"
 
 [[bin]]
 name = "docxprod-rs-helper"
-path = "src/docxprod_rs_helper.rs"
+path = "src/docxprod_helper.rs"
+
+[[bin]]
+name = "pdfilter-rs-docx-centertext"
+path = "src/pdfilter_docx_centertext.rs"
 
 [[bin]]
 name = "pdfilter-rs-docx-pagebreak"

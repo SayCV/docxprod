@@ -22,9 +22,8 @@ impl MutVisitor for MyVisitor {
                     if extra_attr.0.eq_ignore_ascii_case("style") {
                         lazy_static! {
                             static ref RE_PAGE_BREAK: Regex =
-                                Regex::new(r#"page-break-after: always;"#).unwrap();
+                                Regex::new(r".*page-break-after\s*:\s*always\s*;.*").unwrap();
                         }
-                        //eprintln!("--> {}", extra_attr.1.to_lowercase());
                         if RE_PAGE_BREAK.is_match(&extra_attr.1.to_lowercase()) {
                             *block = Block::RawBlock(
                                 Format("openxml".to_string()),
@@ -42,15 +41,29 @@ impl MutVisitor for MyVisitor {
 }
 
 fn main() {
-    let mut s = String::new();
-    let mut my_visitor = MyVisitor { processed_count: 0, };
-    io::stdin().read_to_string(&mut s).unwrap();
-    let s = pandoc_ast::filter(s, |mut pandoc| {
-        my_visitor.walk_pandoc(&mut pandoc);
-        pandoc
-    });
-    if my_visitor.processed_count > 0 {
-        eprintln!("-> Processed page break at {} positions.", my_visitor.processed_count);
+    let args: Vec<String> = std::env::args().collect();
+    let mut format = "html".to_string();
+    if args.len() > 1 {
+        format = args[1].clone();
     }
-    io::stdout().write(s.as_bytes()).unwrap();
+    //eprintln!("-> Detected format {}.", format);
+
+    let mut s = String::new();
+    let mut my_visitor = MyVisitor { processed_count: 0 };
+    io::stdin().read_to_string(&mut s).unwrap();
+    if format.eq_ignore_ascii_case("docx") {
+        let s = pandoc_ast::filter(s, |mut pandoc| {
+            my_visitor.walk_pandoc(&mut pandoc);
+            pandoc
+        });
+        if my_visitor.processed_count > 0 {
+            eprintln!(
+                "-> Processed at {} positions.",
+                my_visitor.processed_count
+            );
+        }
+        io::stdout().write(s.as_bytes()).unwrap();
+    } else {
+        io::stdout().write(s.as_bytes()).unwrap();
+    }
 }
