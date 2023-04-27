@@ -42,7 +42,7 @@ class DocxTableUpdateWidth(object):
                         max_col_idx = idx
                     _cols_nom = _cols_nom + elem.colspec[idx][1]
                     #pf.debug(elem.colspec[idx])
-                if 100 - _cols_nom * 100 > 1:
+                if 100 - _cols_nom * 100 > 0:
                     elem.colspec[max_col_idx] = (elem.colspec[max_col_idx][0], elem.colspec[max_col_idx][1] + 1 - _cols_nom)
                     #pf.debug(f" :: Resized [{max_col_idx}] {elem.colspec[max_col_idx]}")
                 return elem
