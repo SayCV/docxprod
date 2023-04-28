@@ -14,6 +14,10 @@ name = "pdfilter-rs-docx-centertext"
 path = "src/pdfilter_docx_centertext.rs"
 
 [[bin]]
+name = "pdfilter-rs-docx-colortext"
+path = "src/pdfilter_docx_colortext.rs"
+
+[[bin]]
 name = "pdfilter-rs-docx-pagebreak"
 path = "src/pdfilter_docx_pagebreak.rs"
 

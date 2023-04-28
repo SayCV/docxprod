@@ -11,13 +11,15 @@ struct MyVisitor {
     processed_count: i32,
 }
 
-fn centered_text(text: &str, bold: bool) -> String {
+fn colored_text(text: &str, bold: bool, color_hex: &str) -> String {
     format!(
-        "{}{}{}{}",
-        r#"<w:p><w:pPr><w:pStyle w:val="FirstParagraph" /><w:jc w:val="center" /></w:pPr><w:r><w:t>"#,
+        "{}{}{}{}{}{}",
+        r#"<w:r><w:rPr><w:color w:val=""#,
+        color_hex,
+        r#"" /></w:rPr><w:t>"#,
         if bold { r#"<w:rPr><w:b /></w:rPr>"# } else { "" },
         text,
-        r#"</w:t></w:r></w:p>"#
+        r#"</w:t></w:r>"#
     )
 }
 
@@ -29,14 +31,18 @@ impl MutVisitor for MyVisitor {
                 for extra_attr in &attr.2 {
                     if extra_attr.0.eq_ignore_ascii_case("style") {
                         lazy_static! {
-                            static ref RE_TEXT_ALIGN_CENTER: Regex =
-                                Regex::new(r".*text-align\s*:\s*center\s*.*").unwrap();
+                            static ref RE_TEXT_COLOR_NAME: Regex =
+                                Regex::new(r".*color\s*:\s*(?P<color_value>[a-zA-Z]+)\s*.*").unwrap();
+                            static ref RE_TEXT_COLOR_HEX: Regex =
+                                Regex::new(r".*color\s*:\s*(?P<color_value>#\d+)\s*.*").unwrap();
+                            static ref RE_TEXT_COLOR_RGB: Regex =
+                                Regex::new(r".*color\s*:\s*rgb\((?P<r>\d{1,3})\s*,\s*(?P<g>\d{1,3})\s*,\s*(?P<b>\d{1,3})\)\s*.*").unwrap();
                             static ref RE_TEXT_BOLD: Regex =
                                 Regex::new(r".*font-weight\s*:\s*bold\s*.*").unwrap();
                         }
-                        if RE_TEXT_ALIGN_CENTER.is_match(&extra_attr.1.to_lowercase()) {
+                        if RE_TEXT_COLOR_NAME.is_match(&extra_attr.1.to_lowercase()) {
                             let mut text = String::new();
-                            for _block in vec_block {
+                            for _block in vec_block.clone() {
                                 match _block {
                                     Plain(ref vec_inline) | Para(ref vec_inline) => {
                                         for inline in vec_inline {
@@ -52,7 +58,7 @@ impl MutVisitor for MyVisitor {
                             let bold = RE_TEXT_BOLD.is_match(&extra_attr.1.to_lowercase());
                             *block = Block::RawBlock(
                                 Format("openxml".to_string()),
-                                centered_text(&text, bold).to_string(),
+                                colored_text(&text, bold, "").to_string(),
                             );
                             self.processed_count += 1;
 
