@@ -1,3 +1,5 @@
+pub mod utils;
+
 extern crate pandoc_ast;
 
 #[allow(unused_imports)]
@@ -17,7 +19,11 @@ fn colored_text(text: &str, bold: bool, color_hex: &str) -> String {
         r#"<w:r><w:rPr><w:color w:val=""#,
         color_hex,
         r#"" /></w:rPr><w:t>"#,
-        if bold { r#"<w:rPr><w:b /></w:rPr>"# } else { "" },
+        if bold {
+            r#"<w:rPr><w:b /></w:rPr>"#
+        } else {
+            ""
+        },
         text,
         r#"</w:t></w:r>"#
     )
@@ -93,10 +99,7 @@ fn main() {
             pandoc
         });
         if my_visitor.processed_count > 0 {
-            eprintln!(
-                "-> Processed at {} positions.",
-                my_visitor.processed_count
-            );
+            eprintln!("-> Processed at {} positions.", my_visitor.processed_count);
         }
         io::stdout().write(s.as_bytes()).unwrap();
     } else {

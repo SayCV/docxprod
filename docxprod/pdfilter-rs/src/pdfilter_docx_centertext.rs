@@ -2,10 +2,10 @@ extern crate pandoc_ast;
 
 #[allow(unused_imports)]
 use pandoc_ast::{Attr, Block, Format, Inline, MutVisitor};
+
 use std::io::{self, Read, Write};
 
-use lazy_static::lazy_static;
-use regex::Regex;
+mod utils;
 
 struct MyVisitor {
     processed_count: i32,
@@ -28,13 +28,8 @@ impl MutVisitor for MyVisitor {
             Div(ref attr, vec_block) => {
                 for extra_attr in &attr.2 {
                     if extra_attr.0.eq_ignore_ascii_case("style") {
-                        lazy_static! {
-                            static ref RE_TEXT_ALIGN_CENTER: Regex =
-                                Regex::new(r".*text-align\s*:\s*center\s*.*").unwrap();
-                            static ref RE_TEXT_BOLD: Regex =
-                                Regex::new(r".*font-weight\s*:\s*bold\s*.*").unwrap();
-                        }
-                        if RE_TEXT_ALIGN_CENTER.is_match(&extra_attr.1.to_lowercase()) {
+                        let (_, text_align, text_bold) = utils::parse_text_style(&extra_attr.1);
+                        if text_align.eq_ignore_ascii_case("center") {
                             let mut text = String::new();
                             for _block in vec_block {
                                 match _block {
@@ -42,17 +37,16 @@ impl MutVisitor for MyVisitor {
                                         for inline in vec_inline {
                                             match inline {
                                                 Inline::Str(ref s) => text.push_str(s),
-                                                _ => text.push_str(""),
+                                                _ => {},
                                             };
                                         }
                                     }
                                     _ => {}
                                 }
                             }
-                            let bold = RE_TEXT_BOLD.is_match(&extra_attr.1.to_lowercase());
                             *block = Block::RawBlock(
                                 Format("openxml".to_string()),
-                                centered_text(&text, bold).to_string(),
+                                centered_text(&text, text_bold).to_string(),
                             );
                             self.processed_count += 1;
 
