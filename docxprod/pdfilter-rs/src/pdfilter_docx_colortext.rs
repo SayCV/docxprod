@@ -6,14 +6,13 @@ extern crate pandoc_ast;
 use pandoc_ast::{Attr, Block, Format, Inline, MutVisitor};
 use std::io::{self, Read, Write};
 
-use lazy_static::lazy_static;
-use regex::Regex;
+use crate::utils::to_docx_color;
 
 struct MyVisitor {
     processed_count: i32,
 }
 
-fn colored_text(text: &str, bold: bool, color_hex: &str) -> String {
+fn colored_text(text: &str, color_hex: &str, bold: bool) -> String {
     format!(
         "{}{}{}{}{}{}",
         r#"<w:r><w:rPr><w:color w:val=""#,
@@ -30,48 +29,37 @@ fn colored_text(text: &str, bold: bool, color_hex: &str) -> String {
 }
 
 impl MutVisitor for MyVisitor {
-    fn visit_block(&mut self, block: &mut Block) {
-        use Block::*;
-        match block.clone() {
-            Div(ref attr, vec_block) => {
+    fn visit_inline(&mut self, inline: &mut Inline) {
+        use Inline::*;
+        match inline.clone() {
+            Span(ref mut attr, vec_inline) => {
                 for extra_attr in &attr.2 {
                     if extra_attr.0.eq_ignore_ascii_case("style") {
-                        lazy_static! {
-                            static ref RE_TEXT_COLOR_NAME: Regex =
-                                Regex::new(r".*color\s*:\s*(?P<color_value>[a-zA-Z]+)\s*.*").unwrap();
-                            static ref RE_TEXT_COLOR_HEX: Regex =
-                                Regex::new(r".*color\s*:\s*(?P<color_value>#\d+)\s*.*").unwrap();
-                            static ref RE_TEXT_COLOR_RGB: Regex =
-                                Regex::new(r".*color\s*:\s*rgb\((?P<r>\d{1,3})\s*,\s*(?P<g>\d{1,3})\s*,\s*(?P<b>\d{1,3})\)\s*.*").unwrap();
-                            static ref RE_TEXT_BOLD: Regex =
-                                Regex::new(r".*font-weight\s*:\s*bold\s*.*").unwrap();
-                        }
-                        if RE_TEXT_COLOR_NAME.is_match(&extra_attr.1.to_lowercase()) {
+                        let (text_color, _, text_bold) = utils::parse_text_style(&extra_attr.1);
+                        if !text_color.is_empty() {
+                            let hex_color = to_docx_color(&text_color);
                             let mut text = String::new();
-                            for _block in vec_block.clone() {
-                                match _block {
-                                    Plain(ref vec_inline) | Para(ref vec_inline) => {
-                                        for inline in vec_inline {
-                                            match inline {
-                                                Inline::Str(ref s) => text.push_str(s),
-                                                _ => text.push_str(""),
-                                            };
-                                        }
+                            let mut elem = String::new();
+                            for _inline in vec_inline {
+                                match _inline {
+                                    Inline::Str(ref s) => text.push_str(s),
+                                    Inline::Space | Inline::SoftBreak => text.push_str(" "),
+                                    Inline::LineBreak => {
+                                        elem.push_str(&colored_text(&text, &hex_color, text_bold));
+                                        elem.push_str(r"<w:r><w:br /></w:r>");
+                                        text.clear();
                                     }
                                     _ => {}
                                 }
                             }
-                            let bold = RE_TEXT_BOLD.is_match(&extra_attr.1.to_lowercase());
-                            *block = Block::RawBlock(
+                            if text.len() > 0 {
+                                elem.push_str(&colored_text(&text, &hex_color, text_bold));
+                            }
+                            *inline = Inline::RawInline(
                                 Format("openxml".to_string()),
-                                colored_text(&text, bold, "").to_string(),
+                                elem,
                             );
                             self.processed_count += 1;
-
-                            //let attr0 = &attr.0;
-                            //let attr1 = attr.1.iter().map(|x| x.as_str()).collect::<String>();
-                            //let attr2 = attr.2.iter().map(|x| x.0.to_string() + " = " + &x.1.to_string() ).collect::<String>();
-                            //eprintln!("-> {} -> {} -> {} -> {}", attr0, attr1, attr2, text);
                             break;
                         }
                     }

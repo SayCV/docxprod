@@ -25,7 +25,7 @@ impl MutVisitor for MyVisitor {
     fn visit_block(&mut self, block: &mut Block) {
         use Block::*;
         match block.clone() {
-            Div(ref attr, vec_block) => {
+            Div(ref mut attr, vec_block) => {
                 for extra_attr in &attr.2 {
                     if extra_attr.0.eq_ignore_ascii_case("style") {
                         let (_, text_align, text_bold) = utils::parse_text_style(&extra_attr.1);
@@ -49,11 +49,6 @@ impl MutVisitor for MyVisitor {
                                 centered_text(&text, text_bold).to_string(),
                             );
                             self.processed_count += 1;
-
-                            //let attr0 = &attr.0;
-                            //let attr1 = attr.1.iter().map(|x| x.as_str()).collect::<String>();
-                            //let attr2 = attr.2.iter().map(|x| x.0.to_string() + " = " + &x.1.to_string() ).collect::<String>();
-                            //eprintln!("-> {} -> {} -> {} -> {}", attr0, attr1, attr2, text);
                             break;
                         }
                     }
