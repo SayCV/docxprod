@@ -1,5 +1,6 @@
 /* Including one css file into other */
 @import url("file:///${DOCXPROD_ROOT}/data/markdown.css");
+@import url("file:///${DOCXPROD_ROOT}/data/_system-fonts.css");
 @import url("file:///${DOCXPROD_ROOT}/data/markdown-headtitle-resized.css");
 @import url("file:///${DOCXPROD_ROOT}/data/markdown-inline-code-fixed.css");
 @import url("file:///${DOCXPROD_ROOT}/data/markdown-footnotes.css");
