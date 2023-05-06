@@ -28,6 +28,7 @@ entry_points = {
         "pdpost-pdf-update-numpages = docxprod.pdpost_pdf_update_numpages:main",
         "pdpost-pdf-update-bookmark = docxprod.pdpost_pdf_update_bookmark:main",
         "pdpost-pdf-update-tocpage = docxprod.pdpost_pdf_update_tocpage:main",
+        "pdpost-pdf-find-then-colored = docxprod.pdpost_pdf_find_then_colored:main",
     ],
 }
 

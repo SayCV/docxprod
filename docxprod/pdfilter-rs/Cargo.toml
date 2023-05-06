@@ -21,6 +21,10 @@ path = "src/pdfilter_docx_colortext.rs"
 name = "pdfilter-rs-docx-pagebreak"
 path = "src/pdfilter_docx_pagebreak.rs"
 
+[[bin]]
+name = "pdpost-pdf-find-then-colored"
+path = "src/pdpost_pdf_find_then_colored.rs"
+
 [build-dependencies]
 anyhow = "1.0"
 fs_extra = "1.3"
@@ -39,3 +43,4 @@ dict = "0.1"
 scraper = "0.16"
 color-name = "1.0"
 colors-transform = "0.2"
+lopdf = { version = "0.30", features = ["pom_parser", "nom_parser"]}
