@@ -21,7 +21,7 @@ from docxprod.docxprod_helper import DOCXPROD_ROOT, logger_init
 logger = logging.getLogger(__name__)
 
 
-def find_then_colored_text(args: argparse.Namespace, text: str, color_name: str, font: str):
+def find_then_colored_text(args: argparse.Namespace, text: str, color_name: str, font_name: str):
     color = (1, 0, 0)
     if color_name == "green":
         color = (0, 1, 0)
@@ -32,14 +32,15 @@ def find_then_colored_text(args: argparse.Namespace, text: str, color_name: str,
     rl = page.search_for(text)
     #assert len(rl) == 1
     logger.info(f"Found {len(rl)} positions.")
-
+    
+    font = None
     for i in range(len(rl)):
         clip = rl[i]
         # extract text info now - before the redacting removes it.
         blocks = page.get_text("dict", clip=clip)["blocks"]
         span = blocks[0]["lines"][0]["spans"][0]
         #assert span["text"] == text
-        logger.info(f'Changing {span["text"]}.')
+        #logger.info(f'Changing {span["text"]}.')
 
         # remove text
         page.add_redact_annot(clip)
@@ -47,7 +48,8 @@ def find_then_colored_text(args: argparse.Namespace, text: str, color_name: str,
 
         # re-insert same text - different color
         # this must be known somehow - or simply try some font else
-        font = fitz.Font(font)
+        if font is None:
+            font = fitz.Font(font_name)
         tw = fitz.TextWriter(page.rect, color=color)
         # text insertion must use the original insertion poin and font size.
         # if not original font, then some fontsize adjustments will probably be required:
