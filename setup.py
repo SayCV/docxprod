@@ -29,6 +29,7 @@ entry_points = {
         "pdpost-pdf-update-bookmark = docxprod.pdpost_pdf_update_bookmark:main",
         "pdpost-pdf-update-tocpage = docxprod.pdpost_pdf_update_tocpage:main",
         "pdpost-pdf-find-then-colored = docxprod.pdpost_pdf_find_then_colored:main",
+        "pdpost-pdf-forcd-to-relative-path = docxprod.pdf_post_forced_to_relative_path:main",
     ],
 }
 
