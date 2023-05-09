@@ -43,4 +43,4 @@ dict = "0.1"
 scraper = "0.16"
 color-name = "1.0"
 colors-transform = "0.2"
-mupdf= "0.4"
+lopdf= { version = "0.30", features = ["pom_parser", "nom_parser"] }
