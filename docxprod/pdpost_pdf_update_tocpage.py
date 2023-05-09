@@ -126,8 +126,8 @@ def get_margin_from_env():
     
     hMargin = parse_margin_from_env("hMargin")
     vMargin = parse_margin_from_env("vMargin")
-    hMargin = 00 + 72.0 - hMargin if (hMargin <= 72) else hMargin
-    vMargin = 36 + 72.0 - vMargin if (vMargin <= 72) else vMargin
+    #hMargin = 00 + 72.0 - hMargin if (hMargin <= 72) else hMargin
+    #vMargin = 36 + 72.0 - vMargin if (vMargin <= 72) else vMargin
 
     return (hMargin, vMargin)
 
