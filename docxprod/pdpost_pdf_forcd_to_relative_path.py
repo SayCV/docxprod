@@ -43,7 +43,8 @@ def forcd_to_relative_path(args: argparse.Namespace):
                 if src_link.endswith(link[0]):
                     link_in_page['file'] = ""
                     link_in_page['kind'] = fitz.LINK_URI
-                    link_in_page['uri'] = dst_link
+                    page_nbr = link_in_page['page'] if 'page' in link_in_page else 1
+                    link_in_page['uri'] = f"{dst_link}#page={page_nbr+1}"
                     page.update_link(link_in_page)
                     logger.info(f"Succeeded to do {src_link} -> {dst_link}.")
     if args.output == args.input:
