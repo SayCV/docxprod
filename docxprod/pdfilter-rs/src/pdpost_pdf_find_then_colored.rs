@@ -69,7 +69,7 @@ fn main() -> Result<(), Error> {
     let mut doc = Document::load("example.pdf").unwrap();
 
     doc.version = "1.4".to_string();
-    replace_text(&mut doc, 1, "I2S1", "SSSS")?;
+    replace_text(&mut doc, 1, "SDI", "DDD")?;
     // Store file in current working directory.
     // Note: Line is excluded when running tests
     if true {
