@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-- pdpost-pdf-update-tocpage
+- pdpost-pdf-find-then-colored
 """
 
 import argparse
