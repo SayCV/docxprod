@@ -46,7 +46,10 @@ def forcd_to_relative_path(args: argparse.Namespace):
                     link_in_page['uri'] = dst_link
                     page.update_link(link_in_page)
                     logger.debug(f"Succeeded to do {src_link} -> {dst_link}.")
-    doc.save(args.output)
+    if args.output == args.input:
+        doc.saveIncr()
+    else:
+        doc.save(args.output)
     doc.close()
 
 
