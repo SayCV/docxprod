@@ -34,7 +34,7 @@ def forcd_to_relative_path(args: argparse.Namespace):
         for link_in_page in lnks:
             if not 'file' in link_in_page:
                 continue
-            print(link_in_page)
+            logger.debug(f"Found links -> {link_in_page}")
             for link in relinks:
                 if not isinstance(link, list):
                     continue
@@ -45,7 +45,7 @@ def forcd_to_relative_path(args: argparse.Namespace):
                     link_in_page['kind'] = fitz.LINK_URI
                     link_in_page['uri'] = dst_link
                     page.update_link(link_in_page)
-                    logger.debug(f"Succeeded to do {src_link} -> {dst_link}.")
+                    logger.info(f"Succeeded to do {src_link} -> {dst_link}.")
     if args.output == args.input:
         doc.saveIncr()
     else:
