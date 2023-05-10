@@ -30,9 +30,14 @@ pub fn find_then_colored_text(doc: &mut Document, page_number: u32, text: &str, 
     let mut current_operation_rg = None;
     let mut _current_operation_td = None;
     let mut _current_operation_tf = None;
-    let emph_color = match color_name {
-        "green" => (0, 1, 0),
+    let emph_color = match color_name.to_ascii_lowercase().as_str() {
+        "black" => (0, 0, 0),
         "blue" => (0, 0, 1),
+        "green" => (0, 1, 0),
+        "cyan" => (0, 1, 1),
+        "fuchsia" => (1, 0, 1),
+        "yellow" => (1, 1, 0),
+        "white" => (1, 1, 1),
         _ => (1, 0, 0),
     };
     let emph_color_string = format!("{} {} {} rg", emph_color.0, emph_color.1, emph_color.2);
