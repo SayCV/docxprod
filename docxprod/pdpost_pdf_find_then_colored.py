@@ -22,11 +22,24 @@ logger = logging.getLogger(__name__)
 
 
 def find_then_colored_text(args: argparse.Namespace, text: str, color_name: str, font_name: str):
-    color = (1, 0, 0)
-    if color_name == "green":
-        color = (0, 1, 0)
-    elif color_name == "blue":
-        color = (0, 0, 1)
+    match color_name:
+        case 'black':
+            color = (0, 0, 0)
+        case 'blue':
+            color = (0, 0, 1)
+        case 'green':
+            color = (0, 1, 0)
+        case 'cyan':
+            color = (0, 1, 1)
+        case 'fuchsia':
+            color = (1, 0, 1)
+        case 'yellow':
+            color = (1, 1, 0)
+        case 'white':
+            color = (1, 1, 1)
+        case _:
+            color = (1, 0, 0)
+
     doc = fitz.open(args.input)
     page = doc[0]
     rl = page.search_for(text)
