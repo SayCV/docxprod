@@ -38,6 +38,7 @@ install_requires = [
     "colorama >= 0.3.7",
     "panflute >= 2.1.3",
     "pymupdf >= 1.21.1",
+    "fitutils >= 0.2.2",
     "cssutils >= 2.3.0",
     "colorutils >= 0.3.0",
     "pandoc-xnos >= 2.5.0",
