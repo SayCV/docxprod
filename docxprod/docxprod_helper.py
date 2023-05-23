@@ -8,6 +8,8 @@ import functools
 import logging
 from pathlib import Path as path
 
+from ._version import __version__
+
 DOCXPROD_ROOT = path(__file__).resolve().parent
 
 def logger_init(args=None):
@@ -26,7 +28,8 @@ def logger_init(args=None):
         logging.getLogger("").setLevel(logging.DEBUG)
 
 def main():
-    print(DOCXPROD_ROOT.as_posix())
+    print(f"DOCXPROD_ROOT: {DOCXPROD_ROOT.as_posix()}")
+    print(f"Version: {__version__}")
 
 
 if __name__ == "__main__":
