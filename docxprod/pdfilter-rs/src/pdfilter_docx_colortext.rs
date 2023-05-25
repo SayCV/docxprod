@@ -72,10 +72,10 @@ impl MutVisitor for MyVisitor {
 
 fn main() {
     let args: Vec<String> = std::env::args().collect();
-    let mut format = "html".to_string();
-    if args.len() > 1 {
-        format = args[1].clone();
-    }
+    let format = match args.len() {
+        _ if args.len() > 1  => args[1].clone(),
+        _ => "html".to_string(),
+    };
     //eprintln!("-> Detected format {}.", format);
 
     let mut s = String::new();

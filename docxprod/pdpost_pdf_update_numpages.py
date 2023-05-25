@@ -58,7 +58,7 @@ def main(doc=None):
         logger.info(f"This pdf includes {page_count} pages.")
         if args.metadata:
             update_pdf_numpages_to_metadata(args.metadata, page_count)
-            logger.info(f"Updated numpages to metadata done.")
+            logger.info(f"Updated numpages to {args.metadata} done.")
     except Exception as e:
         print(e)
 
