@@ -23,6 +23,7 @@ entry_points = {
         "pdfilter-docx-colortext = docxprod.pdfilter_docx_colortext:main",
         "pdfilter-docx-pagebreak = docxprod.pdfilter_docx_pagebreak:main",
         "pdfilter-docx-svg2emf = docxprod.pdfilter_docx_svg2emf:main",
+        "pdfilter-docx-mermaid = docxprod.pdfilter_docx_mermaid:main",
         "pdfilter-docx-update-tabwdith = docxprod.pdfilter_docx_update_tabwdith:main",
         "pdpost-docx-update-fields = docxprod.pdpost_docx_update_fields:main",
         "pdpost-pdf-update-numpages = docxprod.pdpost_pdf_update_numpages:main",

@@ -14,6 +14,7 @@ import panflute as pf
 
 PLANTUML_BIN = os.environ.get('PLANTUML_BIN', 'plantuml')
 MERMAID_BIN = os.path.expanduser(os.environ.get('MERMAID_BIN', 'mmdc'))
+INKSCAPE_BIN = os.path.expanduser(os.environ.get('INKSCAPE_BIN', 'inkscape'))
 
 
 def prepare(doc):
