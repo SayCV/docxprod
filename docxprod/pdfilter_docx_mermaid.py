@@ -78,20 +78,27 @@ def process_mermaid(elem, doc):
 
         sys.stderr.write('Created image ' + dest + '\n')
 
-        # mermaid to PDF
-        dest = filename + '.pdf'
-        cmd = [MERMAID_BIN, "-f", "-t", "neutral", "-i", src, "-o", dest]
-        p = subprocess.Popen(cmd, stdout=subprocess.PIPE)
-        output, err = p.communicate()
-        sys.stderr.write('Created image ' + dest + '\n')
 
-        # PDF to emf
-        src = filename + '.pdf'
-        dest = filename + '.emf'
-        cmd = [INKSCAPE_BIN, "--export-area-drawing", "--export-type=emf", src, "--export-filename", dest]
-        p = subprocess.Popen(cmd, stdout=subprocess.PIPE)
-        output, err = p.communicate()
-        sys.stderr.write('Created image ' + dest + '\n')
+        try:
+
+            # mermaid to PDF
+            dest_try = filename + '.pdf'
+            cmd = [MERMAID_BIN, "-f", "-t", "neutral", "-i", src, "-o", dest_try]
+            p = subprocess.Popen(cmd, stdout=subprocess.PIPE)
+            output, err = p.communicate()
+            sys.stderr.write('Created image ' + dest_try + '\n')
+
+            # PDF to emf
+            src = filename + '.pdf'
+            dest_try = filename + '.emf'
+            cmd = [INKSCAPE_BIN, "--export-area-drawing", "--export-type=emf", src, "--export-filename", dest_try]
+            p = subprocess.Popen(cmd, stdout=subprocess.PIPE)
+            output, err = p.communicate()
+            sys.stderr.write('Created image ' + dest_try + '\n')
+            dest = dest_try
+
+        except Exception as e:
+            print(e)
 
         return pf.Para(pf.Image(*caption, identifier=elem.identifier,
                                 attributes=elem.attributes, url=dest, title=typef))
