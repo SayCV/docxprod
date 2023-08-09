@@ -4,18 +4,28 @@
 Pandoc filter using panflute for plantUML and mermaid
 """
 
-import fcntl
+#import fcntl
 import hashlib
 import sys
 import os
 import subprocess
+import shutil
 
 import panflute as pf
 
-PLANTUML_BIN = os.environ.get('PLANTUML_BIN', 'plantuml')
-MERMAID_BIN = os.path.expanduser(os.environ.get('MERMAID_BIN', 'mmdc'))
-INKSCAPE_BIN = os.path.expanduser(os.environ.get('INKSCAPE_BIN', 'inkscape'))
+def which(pgm):
+    path=os.getenv('PATH')
+    for p in path.split(os.path.pathsep):
+        p=os.path.join(p,pgm)
+        if os.path.exists(p) and os.access(p,os.X_OK):
+            return p
 
+PLANTUML_BIN = os.environ.get('PLANTUML_BIN', 'plantuml')
+MERMAID_BIN = os.path.expanduser(os.environ.get('MERMAID_BIN', 'mmdc.cmd'))
+INKSCAPE_BIN = os.path.expanduser(os.environ.get('INKSCAPE_BIN', 'inkscape'))
+pf.debug("PLANTUML_BIN: ", shutil.which("plantuml.exe"))
+pf.debug("MERMAID_BIN: ", shutil.which("mmdc.cmd"))
+pf.debug("INKSCAPE_BIN: ", shutil.which("inkscape.exe"))
 
 def prepare(doc):
     pass
@@ -60,12 +70,27 @@ def process_mermaid(elem, doc):
                 f.write(txt)
 
         # Default command to execute
-        cmd = [MERMAID_BIN, "-i", src, "-o", dest]
+        cmd = [MERMAID_BIN, "-f", "-t", "neutral", "-i", src, "-o", dest]
 
         # stdout PIPE required to avoid 'BlockingIOError: [Errno 11] write could not complete without blocking'
         p = subprocess.Popen(cmd, stdout=subprocess.PIPE)
         output, err = p.communicate()
 
+        sys.stderr.write('Created image ' + dest + '\n')
+
+        # mermaid to PDF
+        dest = filename + '.pdf'
+        cmd = [MERMAID_BIN, "-f", "-t", "neutral", "-i", src, "-o", dest]
+        p = subprocess.Popen(cmd, stdout=subprocess.PIPE)
+        output, err = p.communicate()
+        sys.stderr.write('Created image ' + dest + '\n')
+
+        # PDF to emf
+        src = filename + '.pdf'
+        dest = filename + '.emf'
+        cmd = [INKSCAPE_BIN, "--export-area-drawing", "--export-type=emf", src, "--export-filename", dest]
+        p = subprocess.Popen(cmd, stdout=subprocess.PIPE)
+        output, err = p.communicate()
         sys.stderr.write('Created image ' + dest + '\n')
 
         return pf.Para(pf.Image(*caption, identifier=elem.identifier,
